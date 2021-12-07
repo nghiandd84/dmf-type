@@ -143,6 +143,25 @@ declare module "dmf_ui/Button" {
     const Button: React.ForwardRefExoticComponent<Props & React.RefAttributes<any>>;
     export default Button;
 }
+declare module "dmf_ui/Icon" {
+    import { HTMLAttributes } from 'react';
+    import { BaseSize, Color } from "dmf_ui/core/Core";
+    interface Props extends HTMLAttributes<HTMLSpanElement> {
+        name: string;
+        family?: 'material-icons' | 'font-awesome' | 'remixicon';
+        size?: BaseSize | 'xs' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl';
+        color?: Color;
+    }
+    export const IconColor: {
+        primary: import("twin.macro").TwStyle;
+        secondary: import("twin.macro").TwStyle;
+        success: import("twin.macro").TwStyle;
+        danger: import("twin.macro").TwStyle;
+        warning: import("twin.macro").TwStyle;
+        info: import("twin.macro").TwStyle;
+    };
+    export default function Icon({ family, name, color, size, ...rest }: Props): any;
+}
 declare module "dmf_ui/alert/Alert" {
     import React from 'react';
     type Props = {

@@ -16,6 +16,5 @@ declare module 'twin.macro' {
   const css: typeof cssImport;
 }
 
-export * from ".";
 
 
