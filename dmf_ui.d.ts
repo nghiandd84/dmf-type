@@ -1,5 +1,5 @@
 /// <reference types="react" />
-declare module "dmf_ui/core/Core" {
+declare module "dmf_ui/components/core/Core" {
     export type Color = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'none';
     export type RippleType = 'dark' | 'light';
     export type BaseSize = 'sm' | 'base' | 'lg';
@@ -8,6 +8,14 @@ declare module "dmf_ui/core/Core" {
     export type BasePlacement = "top" | "bottom" | "right" | "left";
     export type Placement = AutoPlacement | BasePlacement | VariationPlacement;
     export const TextColor: {
+        primary: import("twin.macro").TwStyle;
+        secondary: import("twin.macro").TwStyle;
+        success: import("twin.macro").TwStyle;
+        danger: import("twin.macro").TwStyle;
+        warning: import("twin.macro").TwStyle;
+        info: import("twin.macro").TwStyle;
+    };
+    export const TextColorWithBg: {
         primary: import("twin.macro").TwStyle;
         secondary: import("twin.macro").TwStyle;
         success: import("twin.macro").TwStyle;
@@ -24,6 +32,14 @@ declare module "dmf_ui/core/Core" {
         info: import("twin.macro").TwStyle;
     };
     export const Bg: {
+        primary: import("twin.macro").TwStyle;
+        secondary: import("twin.macro").TwStyle;
+        success: import("twin.macro").TwStyle;
+        danger: import("twin.macro").TwStyle;
+        warning: import("twin.macro").TwStyle;
+        info: import("twin.macro").TwStyle;
+    };
+    export const BgLight: {
         primary: import("twin.macro").TwStyle;
         secondary: import("twin.macro").TwStyle;
         success: import("twin.macro").TwStyle;
@@ -99,7 +115,7 @@ declare module "dmf_ui/core/Core" {
 }
 declare module "dmf_ui/label/Label" {
     import React, { FunctionComponent } from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     export const TextColor: {
         primary: import("twin.macro").TwStyle;
         secondary: import("twin.macro").TwStyle;
@@ -118,7 +134,7 @@ declare module "dmf_ui/label/Label" {
 }
 declare module "dmf_ui/label/ClosingLabel" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -145,7 +161,7 @@ declare module "dmf_ui/Button" {
 }
 declare module "dmf_ui/Icon" {
     import { HTMLAttributes } from 'react';
-    import { BaseSize, Color } from "dmf_ui/core/Core";
+    import { BaseSize, Color } from "dmf_ui/components/core/Core";
     interface Props extends HTMLAttributes<HTMLSpanElement> {
         name: string;
         family?: 'material-icons' | 'font-awesome' | 'remixicon';
@@ -259,7 +275,7 @@ declare module "dmf_ui/card/CardStatusFooter" {
 }
 declare module "dmf_ui/typography/H1" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -270,7 +286,7 @@ declare module "dmf_ui/typography/H1" {
 }
 declare module "dmf_ui/typography/H2" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -281,7 +297,7 @@ declare module "dmf_ui/typography/H2" {
 }
 declare module "dmf_ui/typography/H3" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -292,7 +308,7 @@ declare module "dmf_ui/typography/H3" {
 }
 declare module "dmf_ui/typography/H4" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -303,7 +319,7 @@ declare module "dmf_ui/typography/H4" {
 }
 declare module "dmf_ui/typography/H5" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -314,7 +330,7 @@ declare module "dmf_ui/typography/H5" {
 }
 declare module "dmf_ui/typography/H6" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -325,7 +341,7 @@ declare module "dmf_ui/typography/H6" {
 }
 declare module "dmf_ui/typography/LeadText" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -336,7 +352,7 @@ declare module "dmf_ui/typography/LeadText" {
 }
 declare module "dmf_ui/typography/Paragraph" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -368,16 +384,16 @@ declare module "dmf_ui/typography/Small" {
 }
 declare module "dmf_ui/Checkbox" {
     import { InputHTMLAttributes } from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     interface Props extends InputHTMLAttributes<HTMLInputElement> {
         text: string;
         color?: Color;
     }
-    export default function Checkbox({ color, text, id, ...rest }: Props): JSX.Element;
+    export default function Checkbox({ color, text, id, className, ...rest }: Props): JSX.Element;
 }
 declare module "dmf_ui/Radio" {
     import { OptionHTMLAttributes } from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     interface Props extends OptionHTMLAttributes<HTMLOptionElement> {
         text: string;
         name: string;
@@ -385,11 +401,37 @@ declare module "dmf_ui/Radio" {
     }
     export default function Radio({ color, text, id, name, ...rest }: Props): JSX.Element;
 }
+declare module "dmf_ui/Select" {
+    import React, { SelectHTMLAttributes } from 'react';
+    import { Color } from "dmf_ui/components/core/Core";
+    interface Option {
+        value: any;
+        label: React.ReactNode;
+    }
+    interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
+        label?: string;
+        options: Option[];
+        className?: string;
+        error?: string;
+        success?: string;
+        isMulti?: boolean;
+        isClearable?: boolean;
+        isSearchable?: boolean;
+        name?: string;
+        outline?: boolean;
+        value?: any | any[];
+        placeholder?: string;
+        color?: Color;
+        iconFamily?: 'material' | 'awesome';
+        onValueChange?: (event: any, value: any[]) => void;
+    }
+    export default function Select({ color, id, name, label, error, success, options, outline, value, iconFamily, multiple, isSearchable, onValueChange, ...rest }: Props): JSX.Element;
+}
 declare module "dmf_ui/Dropdown" {
     import { ButtonHTMLAttributes } from 'react';
-    import { Color, Placement, RippleType, BaseSize } from "dmf_ui/core/Core";
+    import { Color, Placement, RippleType, BaseSize } from "dmf_ui/components/core/Core";
     interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-        buttonText: string;
+        buttonText?: string;
         buttonType?: 'outline' | 'link' | 'fill';
         size?: BaseSize;
         placement?: Placement;
@@ -402,16 +444,19 @@ declare module "dmf_ui/Dropdown" {
 }
 declare module "dmf_ui/DropdownItem" {
     import { HTMLAttributes } from 'react';
-    import { Color, RippleType } from "dmf_ui/core/Core";
+    import { Color, RippleType } from "dmf_ui/components/core/Core";
     interface Props extends HTMLAttributes<HTMLSpanElement> {
         color?: Color;
+        value?: any;
+        selected?: boolean;
         ripple?: RippleType;
+        onClick?: (e: any, value: any) => void;
     }
-    export default function DropdownItem({ children, color, ripple, className, ...rest }: Props): JSX.Element;
+    export default function DropdownItem({ children, color, ripple, selected, className, value, onClick, ...rest }: Props): JSX.Element;
 }
 declare module "dmf_ui/DropdownLink" {
     import { AnchorHTMLAttributes } from 'react';
-    import { Color, RippleType } from "dmf_ui/core/Core";
+    import { Color, RippleType } from "dmf_ui/components/core/Core";
     interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
         color?: Color;
         ripple?: RippleType;
@@ -429,9 +474,10 @@ declare module "dmf_ui/Image" {
 }
 declare module "dmf_ui/Input" {
     import { InputHTMLAttributes } from 'react';
-    import { Color, BaseSize } from "dmf_ui/core/Core";
+    import { Color, BaseSize } from "dmf_ui/components/core/Core";
     interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-        placeholder: string;
+        label?: string;
+        placeholder?: string;
         color?: Color;
         size?: BaseSize;
         outline?: boolean;
@@ -439,12 +485,13 @@ declare module "dmf_ui/Input" {
         success?: string;
         iconFamily?: 'material' | 'awesome';
         iconName?: string;
+        value?: any;
     }
-    export default function Input({ placeholder, color, size, outline, error, success, iconFamily, iconName, ...rest }: Props): JSX.Element;
+    export default function Input({ placeholder, label, color, size, outline, error, success, iconFamily, iconName, value, ...rest }: Props): JSX.Element;
 }
 declare module "dmf_ui/TextArea" {
     import { TextareaHTMLAttributes } from 'react';
-    import { Color, BaseSize } from "dmf_ui/core/Core";
+    import { Color, BaseSize } from "dmf_ui/components/core/Core";
     interface Props extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
         placeholder: string;
         color?: Color;
@@ -457,7 +504,7 @@ declare module "dmf_ui/TextArea" {
 }
 declare module "dmf_ui/Modal" {
     import React from 'react';
-    import { BaseSize } from "dmf_ui/core/Core";
+    import { BaseSize } from "dmf_ui/components/core/Core";
     type Props = {
         children: React.ReactNode;
         size?: BaseSize;
@@ -491,7 +538,7 @@ declare module "dmf_ui/ModalHeader" {
 }
 declare module "dmf_ui/Popover" {
     import React from 'react';
-    import { Placement } from "dmf_ui/core/Core";
+    import { Placement } from "dmf_ui/components/core/Core";
     type Props = {
         children: React.ReactNode;
         className?: string;
@@ -526,7 +573,7 @@ declare module "dmf_ui/PopoverHeader" {
 }
 declare module "dmf_ui/Tooltips" {
     import React from 'react';
-    import { Placement } from "dmf_ui/core/Core";
+    import { Placement } from "dmf_ui/components/core/Core";
     type Props = {
         children: React.ReactNode;
         placement?: Placement;
@@ -574,7 +621,7 @@ declare module "dmf_ui/nav/NavLink" {
 }
 declare module "dmf_ui/navbar/Navbar" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         navbar?: boolean;
@@ -585,7 +632,7 @@ declare module "dmf_ui/navbar/Navbar" {
 }
 declare module "dmf_ui/navbar/NavbarBrand" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         color?: Color;
         className?: string;
@@ -620,7 +667,7 @@ declare module "dmf_ui/navbar/NavbarInput" {
 }
 declare module "dmf_ui/navbar/NavbarToggler" {
     import React, { ButtonHTMLAttributes } from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
         color: Color;
         ripple: 'dark' | 'light';
@@ -664,7 +711,7 @@ declare module "dmf_ui/tab/TabItem" {
 }
 declare module "dmf_ui/tab/TabList" {
     import React from 'react';
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         children: React.ReactNode;
         className?: string;
@@ -690,7 +737,7 @@ declare module "dmf_ui/tab/TabPane" {
     export default function TabPane({ children, active, className, }: Props): JSX.Element;
 }
 declare module "dmf_ui/Progress" {
-    import { Color } from "dmf_ui/core/Core";
+    import { Color } from "dmf_ui/components/core/Core";
     type Props = {
         value: number;
         percentage?: boolean;
@@ -707,7 +754,7 @@ declare module "dmf_ui/pagination/Pagination" {
 }
 declare module "dmf_ui/pagination/PaginationItem" {
     import React, { AnchorHTMLAttributes } from 'react';
-    import { Color, RippleType } from "dmf_ui/core/Core";
+    import { Color, RippleType } from "dmf_ui/components/core/Core";
     interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
         color?: Color;
         ripple?: RippleType;
@@ -715,4 +762,138 @@ declare module "dmf_ui/pagination/PaginationItem" {
         children: React.ReactNode;
     }
     export default function PaginationItem({ children, color, button, ripple, className, ...rest }: Props): JSX.Element;
+}
+declare module "dmf_ui/components/Button/index" {
+    export { default } from "dmf_ui/Button";
+}
+declare module "dmf_ui/components/Checkbox/index" {
+    export { default } from "dmf_ui/Checkbox";
+}
+declare module "dmf_ui/components/Input/index" {
+    export { default } from "dmf_ui/Input";
+}
+declare module "dmf_ui/components/Radio/index" {
+    export { default } from "dmf_ui/Radio";
+}
+declare module "dmf_ui/dynamicForm" {
+    import React from 'react';
+    import { BaseSize, Color } from "dmf_ui/components/core/Core";
+    export type ChangeData = {
+        valid: boolean;
+        data: {
+            form: Record<string, any>;
+            validationErrors: Record<string, boolean>;
+        };
+    };
+    /**
+     * type InputType
+     * line-break to create new line with not input
+     */
+    export type InputType = undefined | 'line-break' | 'text' | 'custom' | 'password' | 'date' | 'email' | 'month' | 'number' | 'range' | 'color' | 'search' | 'time' | 'url' | 'week' | 'textarea' | 'checkbox' | 'select' | 'radio';
+    export type ValidateFunc = (name: string, fieldValue: any, formValue?: any) => boolean;
+    export interface FormInputBase {
+        name: string;
+        type?: InputType;
+        label?: string;
+        color?: Color;
+        placeholder?: string;
+        filter?: string;
+        validationRules?: {
+            rule: string | ValidateFunc | RegExp;
+            message?: string;
+        }[] | string[];
+        size?: BaseSize;
+        transformer?: Record<string, string>;
+        inputClass?: string;
+        outline?: boolean;
+        onHide?: (data: any) => boolean;
+    }
+    export interface RadioInput extends FormInputBase {
+        options?: OptionInput[];
+        radioClass?: string;
+    }
+    export interface SelectInput extends FormInputBase {
+        options?: OptionInput[];
+        selectClass?: string;
+        outline?: boolean;
+    }
+    export type FormInput = RadioInput | SelectInput | FormInputBase;
+    export interface OptionInput {
+        name: string;
+        label: any;
+        value: any;
+    }
+    type Props = {
+        defaultValues?: Record<string, any>;
+        classPrefix?: string;
+        defaultContainerClass?: string;
+        defaultInputClass?: string;
+        defaultSubmitClass?: string;
+        inputs?: FormInput | (FormInput | FormInput[])[];
+        invalidInputClass?: string;
+        validInputClass?: string;
+        loading?: boolean;
+        loadingElement?: React.ReactNode;
+        formErrors?: {};
+        submitButton?: {
+            className: string;
+            text: string;
+        };
+        validationTimeout?: number;
+        onChange?: (data: ChangeData) => void;
+        onSubmit: (data: ChangeData) => void;
+    };
+    type State = {
+        form: Record<string, any>;
+        inputs: FormInput | (FormInput | FormInput[])[];
+        canRender: any[];
+        validationErrors: Record<string, any>;
+        randomisedFields: Record<string, any>;
+    };
+    export default class DynamicForm extends React.Component<Props, State> {
+        filterRules: {
+            numeric: (value: string) => boolean;
+            decimal: (value: string) => boolean;
+        };
+        transformerRules: {
+            uppercase: (value: string) => string;
+            lowercase: (value: string) => string;
+        };
+        validationRules: {
+            required: (value: any) => boolean;
+            email: (value: string) => boolean;
+            decimal: (value: string) => boolean;
+        };
+        constructor(props: Props);
+        static flatInputs(entity: any): any[];
+        static getDerivedStateFromProps(props: Props, state: State): {
+            inputs: FormInput | (FormInput | FormInput[])[];
+            canRender: any[];
+            form: {
+                [x: string]: any;
+            };
+            validationErrors: {
+                [x: string]: any;
+            };
+            randomisedFields: {
+                [x: string]: any;
+            };
+        };
+        render(): JSX.Element;
+        validateForm(display?: boolean): [boolean, Record<string, boolean>];
+        validateInput(name: string, value: any, rules: any): [boolean, Record<string, boolean>];
+        submitForm(): void;
+        propagateChange(form: Record<string, any>, validationErrors?: any): void;
+        applyFilter(event: any, filter: any): any;
+        applyTransformer(event: any, transformer: any): any;
+        applyValidation(event: any, validation: any, onlyValid?: boolean): Record<string, any>;
+        handleInput(input: any, event: any): void;
+        handleBlur(input: any, event: any): void;
+        getInputValidationError(inputName: string): string;
+        renderSubmitButton(): JSX.Element;
+        renderSubmitButtonContents(): {};
+        renderInputs(inputs: FormInput[], isRow?: boolean): JSX.Element;
+        renderInput(inputs: FormInput | FormInput[]): JSX.Element;
+        getValidatoinError(input: FormInput): string;
+    }
 }
