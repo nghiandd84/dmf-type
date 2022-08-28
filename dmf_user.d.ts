@@ -43,19 +43,43 @@ declare module "dmf_user/services/todos-api-client" {
     export function loadSnapshot(): Promise<Todo[]>;
     export function saveSnapshot(data: Todo[]): Promise<undefined>;
 }
+declare module "dmf_user/features/auth/model/Login" {
+    export interface LoginData {
+        email: string;
+        password: string;
+    }
+    export interface LoginStatus {
+        id: number;
+        token: string;
+        expiresIn: number | string;
+    }
+}
+declare module "dmf_user/features/auth/model/index" {
+    export * from "dmf_user/features/auth/model/Login";
+}
+declare module "dmf_user/features/auth/services/auth-service" {
+    import { LoginData, LoginStatus } from "dmf_user/features/auth/model/index";
+    export function login(loginData: LoginData): Promise<LoginStatus>;
+}
+declare module "dmf_user/features/auth/services/index" {
+    export * from "dmf_user/features/auth/services/auth-service";
+}
 declare module "dmf_user/services" {
     import * as logger from "dmf_user/services/logger-service";
     import * as todos from "dmf_user/services/todos-api-client";
+    import * as auth from "dmf_user/features/auth/services/index";
     const AppServices: {
         logger: typeof logger;
         api: {
             todos: typeof todos;
+            auth: typeof auth;
         };
     };
     const fnc: () => {
         logger: typeof logger;
         api: {
             todos: typeof todos;
+            auth: typeof auth;
         };
     };
     type AppService = ReturnType<typeof fnc>;
@@ -80,8 +104,17 @@ declare module "dmf_user/features/todos/actions" {
         failure: import("typesafe-actions").PayloadActionCreator<"SAVE_TODOS_FAILURE", string>;
     };
 }
+declare module "dmf_user/features/auth/store/actions" {
+    import { LoginData, LoginStatus } from "dmf_user/features/auth/model/index";
+    export const userLoginAsync: {
+        request: import("typesafe-actions").PayloadActionCreator<"USER_LOGIN_REQUEST", LoginData>;
+        success: import("typesafe-actions").PayloadActionCreator<"USER_LOGIN_SUCCESS", LoginStatus>;
+        failure: import("typesafe-actions").PayloadActionCreator<"USER_LOGIN_FAILURE", string>;
+    };
+}
 declare module "dmf_user/store/action" {
     import * as todosActions from "dmf_user/features/todos/actions";
+    import * as authActions from "dmf_user/features/auth/store/actions";
     import { ActionType } from 'typesafe-actions';
     export const userAction: {
         router: {
@@ -93,6 +126,7 @@ declare module "dmf_user/store/action" {
         };
         user: {
             todo: typeof todosActions;
+            auth: typeof authActions;
         };
     };
     export type AppAction = ActionType<typeof userAction>;
@@ -112,14 +146,29 @@ declare module "dmf_user/features/todos/selectors" {
     import { TodosState } from "dmf_user/features/todos/reducer";
     export const getTodos: (state: TodosState) => import("dmf_user/features/todos/model/Todo").Todo[];
 }
+declare module "dmf_user/features/auth/store/reducer" {
+    export const isLogin: any;
+    export interface AuthState {
+        isLoading: boolean;
+    }
+    export interface AppAuthState {
+        user: {
+            auth: AuthState;
+        };
+    }
+    const authReducer: import("redux").Reducer<import("redux").CombinedState<AuthState>, import("redux").AnyAction>;
+    export default authReducer;
+    export type TodosState = ReturnType<typeof authReducer>;
+}
 declare module "dmf_user/store/reducer" {
     import { StateType } from 'typesafe-actions';
     import { RouterState } from 'connected-react-router';
-    const userReducer: import("redux").Reducer<import("redux").CombinedState<{
+    export const userReducer: import("redux").Reducer<import("redux").CombinedState<{
         todo: import("redux").CombinedState<{
             isLoadingTodos: boolean;
             todos: import("dmf_user/features/todos/model/Todo").Todo[];
         }>;
+        auth: import("redux").CombinedState<import("dmf_user/features/auth/store/reducer").AuthState>;
     }>, import("redux").AnyAction>;
     export type UserState = StateType<typeof userReducer>;
     export type AppState = {
@@ -127,7 +176,6 @@ declare module "dmf_user/store/reducer" {
         router: RouterState<any>;
         user: UserState;
     };
-    export { userReducer };
 }
 declare module "dmf_user/features/todos/epics" {
     import { Epic } from 'redux-observable';
@@ -137,8 +185,15 @@ declare module "dmf_user/features/todos/epics" {
     export const userLoadTodosEpic: Epic<AppAction, AppAction, AppState, AppRootService>;
     export const userSaveTodosEpic: Epic<AppAction, AppAction, AppState, AppRootService>;
 }
+declare module "dmf_user/features/auth/store/epics" {
+    import { Epic } from 'redux-observable';
+    import { AppAction } from "dmf_user/store/action";
+    import { AppRootService } from "dmf_user/services";
+    import { AppState } from "dmf_user/store/reducer";
+    export const userLoginEpic: Epic<AppAction, AppAction, AppState, AppRootService>;
+}
 declare module "dmf_user/store/epic" {
-    const userEpic: import("redux-observable").Epic<import("connected-react-router").CallHistoryMethodAction<[any]> | import("connected-react-router").CallHistoryMethodAction<[number]> | import("connected-react-router").CallHistoryMethodAction<[]> | import("typesafe-actions").PayloadAction<"ADD_TODO", import("dmf_user/features/todos/model/Todo").Todo> | import("typesafe-actions").PayloadAction<"REMOVE_TODO", string> | import("typesafe-actions").PayloadMetaAction<"LOAD_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_SUCCESS", import("dmf_user/features/todos/model/Todo").Todo[]> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_FAILURE", string> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_SUCCESS", unknown, unknown> | import("typesafe-actions").PayloadAction<"SAVE_TODOS_FAILURE", string>, import("connected-react-router").CallHistoryMethodAction<[any]> | import("connected-react-router").CallHistoryMethodAction<[number]> | import("connected-react-router").CallHistoryMethodAction<[]> | import("typesafe-actions").PayloadAction<"ADD_TODO", import("dmf_user/features/todos/model/Todo").Todo> | import("typesafe-actions").PayloadAction<"REMOVE_TODO", string> | import("typesafe-actions").PayloadMetaAction<"LOAD_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_SUCCESS", import("dmf_user/features/todos/model/Todo").Todo[]> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_FAILURE", string> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_SUCCESS", unknown, unknown> | import("typesafe-actions").PayloadAction<"SAVE_TODOS_FAILURE", string>, import("dmf_user/store/reducer").AppState, import("services").AppRootService>[];
+    const userEpic: import("redux-observable").Epic<import("connected-react-router").CallHistoryMethodAction<[any]> | import("connected-react-router").CallHistoryMethodAction<[number]> | import("connected-react-router").CallHistoryMethodAction<[]> | import("typesafe-actions").PayloadAction<"ADD_TODO", import("dmf_user/features/todos/model/Todo").Todo> | import("typesafe-actions").PayloadAction<"REMOVE_TODO", string> | import("typesafe-actions").PayloadMetaAction<"LOAD_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_SUCCESS", import("dmf_user/features/todos/model/Todo").Todo[]> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_FAILURE", string> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_SUCCESS", unknown, unknown> | import("typesafe-actions").PayloadAction<"SAVE_TODOS_FAILURE", string> | import("typesafe-actions").PayloadAction<"USER_LOGIN_REQUEST", import("features/auth").LoginData> | import("typesafe-actions").PayloadAction<"USER_LOGIN_SUCCESS", import("features/auth").LoginStatus> | import("typesafe-actions").PayloadAction<"USER_LOGIN_FAILURE", string>, import("connected-react-router").CallHistoryMethodAction<[any]> | import("connected-react-router").CallHistoryMethodAction<[number]> | import("connected-react-router").CallHistoryMethodAction<[]> | import("typesafe-actions").PayloadAction<"ADD_TODO", import("dmf_user/features/todos/model/Todo").Todo> | import("typesafe-actions").PayloadAction<"REMOVE_TODO", string> | import("typesafe-actions").PayloadMetaAction<"LOAD_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_SUCCESS", import("dmf_user/features/todos/model/Todo").Todo[]> | import("typesafe-actions").PayloadAction<"LOAD_TODOS_FAILURE", string> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_REQUEST", unknown, unknown> | import("typesafe-actions").PayloadMetaAction<"SAVE_TODOS_SUCCESS", unknown, unknown> | import("typesafe-actions").PayloadAction<"SAVE_TODOS_FAILURE", string> | import("typesafe-actions").PayloadAction<"USER_LOGIN_REQUEST", import("features/auth").LoginData> | import("typesafe-actions").PayloadAction<"USER_LOGIN_SUCCESS", import("features/auth").LoginStatus> | import("typesafe-actions").PayloadAction<"USER_LOGIN_FAILURE", string>, import("dmf_user/store/reducer").AppState, import("services").AppRootService>[];
     export { userEpic };
 }
 declare module "dmf_user/store" {
@@ -235,4 +290,40 @@ declare module "dmf_user/todos" {
     import AddTodoForm from "dmf_user/features/todos/components/AddTodoForm";
     import * as actions from "dmf_user/features/todos/actions";
     export { AddTodoForm, TodoList, TodoListActions, TodoListItem, TodosView, actions };
+    export * from "dmf_user/features/todos/reducer";
+}
+declare module "dmf_user/features/auth/store/selectors" { }
+declare module "dmf_user/features/auth/store/index" {
+    export * from "dmf_user/features/auth/store/actions";
+    export * from "dmf_user/features/auth/store/epics";
+    export * from "dmf_user/features/auth/store/selectors";
+    export * from "dmf_user/features/auth/store/reducer";
+}
+declare module "dmf_user/features/auth/components/Login/Login" {
+    export const Login: () => JSX.Element;
+}
+declare module "dmf_user/features/auth/components/Login/index" {
+    export * from "dmf_user/features/auth/components/Login/Login";
+}
+declare module "dmf_user/features/auth/components/Auth/Auth" {
+    export const Auth: () => JSX.Element;
+    export const PageA: () => JSX.Element;
+    export const PageB: () => JSX.Element;
+}
+declare module "dmf_user/features/auth/components/Auth/index" {
+    export * from "dmf_user/features/auth/components/Auth/Auth";
+}
+declare module "dmf_user/features/auth/components/index" {
+    export * from "dmf_user/features/auth/components/Login/index";
+    export * from "dmf_user/features/auth/components/Auth/index";
+}
+declare module "dmf_user/features/auth/route" {
+    import { RouteObject } from 'react-router-dom';
+    export const authRoutes: RouteObject[];
+}
+declare module "dmf_user/auth" {
+    export * from "dmf_user/features/auth/components/index";
+    export * from "dmf_user/features/auth/model/index";
+    export * from "dmf_user/features/auth/store/index";
+    export * from "dmf_user/features/auth/route";
 }
